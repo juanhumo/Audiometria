@@ -10,9 +10,18 @@
     align-items: center;
     justify-content: center;
     display: flex;
+    flex-direction: column;
 
 }
 
 canvas {
     background-color: white;
+}
+
+.symbols{
+    height: 200px;
+    width: 800px;
+    background-color:bisque;
+    margin-top: 20px;
+    background-color:#86f9d3;
 }
