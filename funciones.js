@@ -23,7 +23,7 @@ function drawGrid() {
 
 //************************ Grafica los marcadores al hacer clic ***********************//
 const markers = [];
-let simbolo = 8;
+
 
 const drawMarkers = (evt) => {
 
@@ -35,53 +35,45 @@ const drawMarkers = (evt) => {
         if(document.getElementById("circle-marker").checked){
                 let circle = new Circle(cursorX, cursorY, ctx);
                 markers.push(circle);
-                circle.draw();
-                
+                circle.draw();      
         }
         if(document.getElementById("minor-marker").checked){
                 let minor = new Minor(cursorX, cursorY, ctx);
                 markers.push(minor);
-                minor.draw();
-                
+                minor.draw();    
         }
         if(document.getElementById("triangle-marker").checked){
                 let triangle = new Triangle(cursorX, cursorY, ctx);
                 markers.push(triangle);               //Almaceno cc del marcador 
-                triangle.draw();   
-                
+                triangle.draw();         
         }
         if(document.getElementById("bracket-open-marker").checked){    
                 let bracketopen = new SquareBracketOpen(cursorX, cursorY, ctx);
                 markers.push(bracketopen);
-                bracketopen.draw();
-                
+                bracketopen.draw();       
         }
         if(document.getElementById("x-marker").checked){
                 let ex = new Ex(cursorX, cursorY, ctx);
                 markers.push(ex);
-                ex.draw();
-                
+                ex.draw();      
         }
         if(document.getElementById("major-marker").checked){
                 let major = new Major(cursorX, cursorY, ctx);
                 markers.push(major);
-                major.draw();
-                
+                major.draw();      
         }
         if(document.getElementById("square-marker").checked){
                 let square = new Square(cursorX, cursorY, ctx);
                 markers.push(square);
-                square.draw();
-                
+                square.draw();      
         }
         if(document.getElementById("bracket-close-marker").checked){
                 let bracketclose = new SquareBracketClose(cursorX, cursorY, ctx);
                 markers.push(bracketclose);
-                bracketclose.draw();
-                
+                bracketclose.draw();      
         }      
         
-       console.log(markers);                     
+       //console.log(markers);                     
     }
 };
 
@@ -133,26 +125,47 @@ const endSelection = () => {        // Finaliza la selección, borra y restaura 
 
 
 
-//********************** Graficar línea de unión entre marcadores *********************//
+/***************************** Graficar línea de unión entre marcadores ****************************/
 
 const drawLines = (evt) => {
     if (evt.key === "d") {   
 
         isSelecting=true;
-        endSelection();          //borra todo y restaura el array de marcadores y grilla
-       
-        function compareX(a, b) { return a.cursorX - b.cursorX; } //Función para sort()
-        markers.sort(compareX);                     //ordeno markers de < a > segun ccX  
-        ctx.lineWidth = 2;
+        endSelection();                     //borra todo y restaura el array de marcadores y grilla
+
         
-        for (let i = 0; i < markers.length - 1; i++) {
-            ctx.setLineDash([6, 3]);                    // linea interrumpida
-            ctx.beginPath();
-            ctx.moveTo(markers[i].cursorX, markers[i].cursorY);
-            ctx.lineTo(markers[i + 1].cursorX, markers[i + 1].cursorY);
-            ctx.stroke();
-        }
-        ctx.closePath();
+/*************** Función para separar los marcadores en sub arrays según su clase ****************/
+
+        const markersByClass = {};     //Array de sub arrays para separar las clases de marcadores
+        for (let marker of markers) {
+            const className = marker.toString(); //aplica método toString de c/clase (return clase)
+            if (!markersByClass[className]) {                     //chequea si existe el sub array
+                markersByClass[className] = [];                                //crea el sub array
+            }
+            markersByClass[className].push(marker);     //Coloca objeto en sub array según su clase    
+        } 
+/*************************************************************************************************/
+
+        ctx.lineWidth = 2;
+
+/************* Dibuja las lineas de forma que solo unan marcadores de la misma clase *************/
+
+        for (let className in markersByClass) {              //recorre por cada clave hasta el fin
+            const markersOfClass = markersByClass[className];      // asigna sub array segun clave
+            markersOfClass.sort((a, b) => a.cursorX - b.cursorX);   // ordena de < a > seg'un cc X
+
+/*******se usan las propiedades de color y estilo de linea de cada clase antes de graficar*******/
+            ctx.setLineDash(markersOfClass[0].lineStyle === 'dashed' ? [6, 3] : []);   //lineStyle
+            ctx.strokeStyle = markersOfClass[0].color;                      // Color de cada clase
+
+            for (let i = 0; i < markersOfClass.length - 1; i++) {           //recorre el sub array
+                ctx.beginPath();
+                ctx.moveTo(markersOfClass[i].cursorX, markersOfClass[i].cursorY);
+                ctx.lineTo(markersOfClass[i + 1].cursorX, markersOfClass[i + 1].cursorY);
+                ctx.stroke();
+            }
+        } 
+/*************************************************************************************************/
     }
     isSelecting=false;
 };
@@ -165,14 +178,18 @@ class Circle {
         this.cursorX = cursorX;
         this.cursorY = cursorY;
         this.ctx = ctx;
+        this.color = "red";
+        this.lineStyle = "solid";
       }
     draw() {
-        this.ctx.strokeStyle = "red";
-        this.ctx.fillStyle = 'white' 
+        this.ctx.strokeStyle = this.color; 
         const circle = new Path2D();
         circle.arc(this.cursorX, this.cursorY, 7, 0, 2 * Math.PI);
         this.ctx.stroke(circle);
     }
+    toString() {
+        return "Circle";
+      }
 }
 
 
@@ -182,9 +199,11 @@ class Triangle {
         this.cursorX = cursorX;
         this.cursorY = cursorY;
         this.ctx = ctx;
+        this.color = "red";
+        this.lineStyle = "solid";
       }
     draw() {
-        this.ctx.strokeStyle = "red";
+        this.ctx.strokeStyle = this.color;
         this.ctx.beginPath();
         this.ctx.moveTo(this.cursorX, this.cursorY-7);
         this.ctx.lineTo(this.cursorX-7, this.cursorY+7);
@@ -193,6 +212,9 @@ class Triangle {
         this.ctx.closePath();
         this.ctx.stroke();
       }
+      toString() {
+        return "Triangle";
+      }
 }
 
 class Square {
@@ -200,13 +222,18 @@ class Square {
         this.cursorX = cursorX;
         this.cursorY = cursorY;
         this.ctx = ctx;
+        this.color = "blue";
+        this.lineStyle = "solid";
       }
     draw() {
-        this.ctx.strokeStyle = "blue"; 
+        this.ctx.strokeStyle = this.color; 
         const square = new Path2D();
         square.rect(this.cursorX-7, this.cursorY-7, 14, 14);
         this.ctx.stroke(square);
     }
+    toString() {
+        return "Square";
+      }
 }
 
 class Ex {
@@ -214,9 +241,11 @@ class Ex {
         this.cursorX = cursorX;
         this.cursorY = cursorY;
         this.ctx = ctx;
+        this.color = "blue";
+        this.lineStyle = "solid";
       }
     draw() {
-        this.ctx.strokeStyle = "blue"; 
+        this.ctx.strokeStyle = this.color; 
         this.ctx.beginPath();
         this.ctx.moveTo(this.cursorX-7, this.cursorY+7);
         this.ctx.lineTo(this.cursorX+7, this.cursorY-7);
@@ -225,6 +254,9 @@ class Ex {
         this.ctx.closePath();
         this.ctx.stroke();
     }
+    toString() {
+        return "Ex";
+      }
 }
 
 
@@ -233,15 +265,20 @@ class Minor {
         this.cursorX = cursorX;
         this.cursorY = cursorY;
         this.ctx = ctx;
+        this.color = "red";
+        this.lineStyle = "dashed";
       }
     draw() {
-        this.ctx.strokeStyle = "red"; 
+        this.ctx.strokeStyle = this.color; 
         this.ctx.beginPath();
         this.ctx.moveTo(this.cursorX-2, this.cursorY+7);
         this.ctx.lineTo(this.cursorX-7, this.cursorY);
         this.ctx.lineTo(this.cursorX-2, this.cursorY-7);
         this.ctx.stroke();
     }
+    toString() {
+        return "Minor";
+      }
 }
 
 class Major {
@@ -249,15 +286,20 @@ class Major {
         this.cursorX = cursorX;
         this.cursorY = cursorY;
         this.ctx = ctx;
+        this.color = "blue";
+        this.lineStyle = "dashed";
       }
     draw() {
-        this.ctx.strokeStyle = "blue"; 
+        this.ctx.strokeStyle = this.color; 
         this.ctx.beginPath();
         this.ctx.moveTo(this.cursorX+2, this.cursorY+7);
         this.ctx.lineTo(this.cursorX+7, this.cursorY);
         this.ctx.lineTo(this.cursorX+2, this.cursorY-7);
         this.ctx.stroke();
     }
+    toString() {
+        return "Major";
+      }
 }
 
 class SquareBracketOpen {
@@ -265,9 +307,11 @@ class SquareBracketOpen {
         this.cursorX = cursorX;
         this.cursorY = cursorY;
         this.ctx = ctx;
+        this.color = "red";
+        this.lineStyle = "dashed";
       }
     draw() {
-        this.ctx.strokeStyle = "roja"; 
+        this.ctx.strokeStyle = this.color; 
         this.ctx.beginPath();
         this.ctx.moveTo(this.cursorX-2, this.cursorY+7);
         this.ctx.lineTo(this.cursorX-7, this.cursorY+7);
@@ -275,6 +319,9 @@ class SquareBracketOpen {
         this.ctx.lineTo(this.cursorX-2, this.cursorY-7);
         this.ctx.stroke();
     }
+    toString() {
+        return "SquareBracketOpen";
+      }
 }
 
 
@@ -283,9 +330,11 @@ class SquareBracketClose {
         this.cursorX = cursorX;
         this.cursorY = cursorY;
         this.ctx = ctx;
+        this.color = "blue";
+        this.lineStyle = "dashed";
       }
     draw() {
-        this.ctx.strokeStyle = "blue"; 
+        this.ctx.strokeStyle = this.color; 
         this.ctx.beginPath();
         this.ctx.moveTo(this.cursorX+2, this.cursorY+7);
         this.ctx.lineTo(this.cursorX+7, this.cursorY+7);
@@ -293,6 +342,9 @@ class SquareBracketClose {
         this.ctx.lineTo(this.cursorX+2, this.cursorY-7);
         this.ctx.stroke();
     }
+    toString() {
+        return "SquareBracketClose";
+      }
 }
 
 
