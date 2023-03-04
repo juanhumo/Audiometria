@@ -10,8 +10,6 @@
     align-items: center;
     justify-content: center;
     display: flex;
-    flex-direction: column;
-
 }
 
 canvas {
@@ -19,8 +17,23 @@ canvas {
 }
 
 .symbols{
-    height: 200px;
-    width: 800px;
+    height: 600px;
+    width: 400px;
     background-color:bisque;
-    margin-top: 20px;
+    margin-left: 20px;
+}
+.marker-selection{
+    display:flex;
+}
+
+fieldset{
+    width: 100%;
+    margin: 4px;
+    text-align: center;
+}
+
+header{
+    display:flex;
+    width: 100%;
+    justify-content:space-around;
 }

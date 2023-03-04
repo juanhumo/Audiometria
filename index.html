@@ -10,9 +10,73 @@
 <body onload="drawGrid()">
     <main class="main-container">
         <canvas id="my-canvas" width="800px" height="600px"></canvas>
-        <div class="symbols" id="symbols"></div>
+
+        <div class="symbols" id="symbols">
+            <header>
+                <span>Tipo de ensayo</span>
+                <span>Oído derecho</span>
+                <span>Oído izquierdo</span>
+            </header>
+            <div class="marker-selection">          
+                <fieldset>
+                    <div>Vía aérea (Va)</div>
+                    <div>Vía ósea (Vo)</div>
+                    <div>Va enmascarada</div>
+                    <div>Vo enmascarada</div>
+                </fieldset>
+                <fieldset>
+                    <label for="circle-marker">
+                        <img src="images/circle-img.png" alt="círculo">
+                        <input id="circle-marker" name ="marker-type" type="radio">
+                        <p></p>
+                    </label>
+                    <label for="minor-marker">
+                        <img src="images/minor-img.png" alt="<">
+                        <input id="minor-marker" name ="marker-type" type="radio">
+                        <p></p>
+                    </label>
+                    <label for="triangle-marker">
+                        <img src="images/triangle-img.png" alt="triángulo">
+                        <input id="triangle-marker" name ="marker-type" type="radio">
+                        <p></p>
+                    </label>                  
+                    <label for="bracket-open-marker">
+                        <img src="images/bracket-open-img.png" alt="[">
+                        <input id="bracket-open-marker" name ="marker-type" type="radio">
+                        <p></p>
+                    </label>
+                </fieldset>
+                <fieldset>
+                    <label for="x-marker">
+                        <img src="images/ex-img.png" alt="X">
+                        <input id="x-marker" name ="marker-type" type="radio">
+                        <p></p>
+                    </label>
+                    <label for="major-marker">
+                        <img src="images/major-img.png" alt=">">
+                        <input id="major-marker" name ="marker-type" type="radio">
+                        <p></p>
+                    </label>
+                    <label for="square-marker">
+                        <img src="images/square-img.png" alt="cuadrado">
+                        <input id="square-marker" name ="marker-type" type="radio">
+                        <p></p>
+                    </label>
+                    <label for="bracket-close-marker">
+                        <img src="images/braket-close-img.png" alt="]">
+                        <input id="bracket-close-marker" name ="marker-type" type="radio">
+                        <p></p>
+                    </label>
+                </fieldset>
+            </div>
+            <footer>
+                doble click = dibujar marcador <br>
+                d=dibujar líneas <br>
+                click drecho encerrar marcador/es = borrar
+            </footer>
+        </div>
+
     </main>
-    <aside></aside>
 </body>
 <script src="funciones.js"></script>
 </html>
