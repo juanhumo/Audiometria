@@ -393,7 +393,7 @@ mainCanvas.addEventListener("mousedown", startSelection);
 mainCanvas.addEventListener("mousemove", updateSelection);
 mainCanvas.addEventListener("mouseup", endSelection);
 
-mainCanvas.addEventListener("touchstart", startSelection);
+mainCanvas.addEventListener("touchmove", startSelection);
 mainCanvas.addEventListener("touchmove", updateSelection);
 mainCanvas.addEventListener("touchend", endSelection);
 
