@@ -393,56 +393,10 @@ mainCanvas.addEventListener("mousedown", startSelection);
 mainCanvas.addEventListener("mousemove", updateSelection);
 mainCanvas.addEventListener("mouseup", endSelection);
 
-mainCanvas.addEventListener('touchstart', startSelectionTouch, false);
-mainCanvas.addEventListener('touchmove', updateSelectionTouch, false);
-mainCanvas.addEventListener('touchend', endSelectionTouch, false);
+mainCanvas.addEventListener("touchstart", startSelection, false);
+mainCanvas.addEventListener("touchmove", updateSelection, false);
+mainCanvas.addEventListener("touchend", endSelection, false);
 
-// ...
-
-// Funciones para manejar eventos táctiles
-function startSelectionTouch(evt) {
-    evt.preventDefault();
-    var touch = evt.touches[0];
-    startSelection({offsetX: touch.pageX - touch.target.offsetLeft, offsetY: touch.pageY - touch.target.offsetTop});
-}
-
-function updateSelectionTouch(evt) {
-    evt.preventDefault();
-    var touch = evt.touches[0];
-    updateSelection({offsetX: touch.pageX - touch.target.offsetLeft, offsetY: touch.pageY - touch.target.offsetTop});
-}
-
-function endSelectionTouch(evt) {
-    evt.preventDefault();
-    endSelection();
-}
-const mainCanvas = document.getElementById("my-canvas");
-const ctx = mainCanvas.getContext("2d");
-
-// ...
-
-let lastTouchTime = 0; // variable para almacenar el tiempo del último toque
-const touchThreshold = 500; // umbral para detectar el doble toque
-
-mainCanvas.addEventListener('touchstart', function(e) {
-    if (e.touches.length === 1) { // solo si un dedo está tocando la pantalla
-        const now = Date.now();
-        const timeDiff = now - lastTouchTime;
-        lastTouchTime = now;
-
-        if (timeDiff < touchThreshold) { // detectar doble toque
-            drawMarkers(e.touches[0]); // llamar a la función drawMarkers con las coordenadas táctiles
-        }
-    }
-});
-
-mainCanvas.addEventListener('touchend', function(e) {
-    // agregar código si es necesario
-});
-
-mainCanvas.addEventListener('touchmove', function(e) {
-    // agregar código si es necesario
-});
 document.addEventListener("keyup", drawLines);
 
 window.addEventListener("resize", drawCanvas);
