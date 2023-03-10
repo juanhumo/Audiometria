@@ -393,9 +393,29 @@ mainCanvas.addEventListener("mousedown", startSelection);
 mainCanvas.addEventListener("mousemove", updateSelection);
 mainCanvas.addEventListener("mouseup", endSelection);
 
-mainCanvas.addEventListener("touchmove", startSelection);
-mainCanvas.addEventListener("touchmove", updateSelection);
-mainCanvas.addEventListener("touchend", endSelection);
+mainCanvas.addEventListener('touchstart', startSelectionTouch, false);
+mainCanvas.addEventListener('touchmove', updateSelectionTouch, false);
+mainCanvas.addEventListener('touchend', endSelectionTouch, false);
+
+// ...
+
+// Funciones para manejar eventos táctiles
+function startSelectionTouch(evt) {
+    evt.preventDefault();
+    var touch = evt.touches[0];
+    startSelection({offsetX: touch.pageX - touch.target.offsetLeft, offsetY: touch.pageY - touch.target.offsetTop});
+}
+
+function updateSelectionTouch(evt) {
+    evt.preventDefault();
+    var touch = evt.touches[0];
+    updateSelection({offsetX: touch.pageX - touch.target.offsetLeft, offsetY: touch.pageY - touch.target.offsetTop});
+}
+
+function endSelectionTouch(evt) {
+    evt.preventDefault();
+    endSelection();
+}
 
 document.addEventListener("keyup", drawLines);
 
