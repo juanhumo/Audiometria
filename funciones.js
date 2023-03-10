@@ -42,8 +42,8 @@ tabs.forEach((tab, index) => {
 //************************ Dibuja y da ancho y alto al canvas *************************//
 
 const drawCanvas = function(){
-    ctx.canvas.width = document.documentElement.clientWidth;
-    ctx.canvas.height = document.documentElement.clientHeight; 
+    ctx.canvas.width = document.documentElement.clientWidth*0.95;
+    ctx.canvas.height = document.documentElement.clientHeight*0.9; 
 }
 
 //************************ Genero la cuadrícula del audiograma ************************//
@@ -52,11 +52,11 @@ function drawGrid() {
     ctx.lineWidth = 1;
     ctx.strokeStyle = "#bebeb2";
 
-    for (let x = 1; x < ctx.canvas.width; x += (ctx.canvas.width) / 9) {
+    for (let x = 1; x < ctx.canvas.width; x += (ctx.canvas.width) / 8) {
         ctx.moveTo(x, 0);
         ctx.lineTo(x, ctx.canvas.height);
     }
-    for (let y = 1; y < ctx.canvas.height; y += (ctx.canvas.height) / 15) {
+    for (let y = 1; y < ctx.canvas.height; y += (ctx.canvas.height) / 14) {
         ctx.moveTo(0, y);
         ctx.lineTo(ctx.canvas.width, y);
     }

@@ -10,7 +10,7 @@
     padding: 0 10px;
     display: flex;
     align-items: center;
-    /*justify-content: center;*/
+    justify-content: center;
 }
 
 .tab-content{display: none;}                    /*oculta hasta click en pestaña*/
@@ -20,9 +20,9 @@
 .tab-content.active {                           /*click en pestaña y muestra contenido*/
     display: flex;
     position: relative;
-    /*justify-content: center;*/
 }
 
+.menu-content{display: none;}                   /*inicia el menu escondido*/
 
 ul li{
     display: inline;
@@ -38,9 +38,9 @@ a:link, a:visited {
 canvas {background-color: white;}
 
 .symbols{
-    position:absolute;
-    /*content: none;*/
-    /*display: none;*/
+    position:fixed;
+    bottom: 6%;
+    left: 2%;
     background-color:bisque;
     margin-left: 20px;
     user-select: none;                  /*evitar selección texto por doble click*/
@@ -61,6 +61,3 @@ header{
     justify-content:space-around;
 }
 
-.menu-content{
-    /*display: none;*/
-}
