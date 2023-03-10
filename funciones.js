@@ -416,7 +416,33 @@ function endSelectionTouch(evt) {
     evt.preventDefault();
     endSelection();
 }
+const mainCanvas = document.getElementById("my-canvas");
+const ctx = mainCanvas.getContext("2d");
 
+// ...
+
+let lastTouchTime = 0; // variable para almacenar el tiempo del último toque
+const touchThreshold = 500; // umbral para detectar el doble toque
+
+mainCanvas.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1) { // solo si un dedo está tocando la pantalla
+        const now = Date.now();
+        const timeDiff = now - lastTouchTime;
+        lastTouchTime = now;
+
+        if (timeDiff < touchThreshold) { // detectar doble toque
+            drawMarkers(e.touches[0]); // llamar a la función drawMarkers con las coordenadas táctiles
+        }
+    }
+});
+
+mainCanvas.addEventListener('touchend', function(e) {
+    // agregar código si es necesario
+});
+
+mainCanvas.addEventListener('touchmove', function(e) {
+    // agregar código si es necesario
+});
 document.addEventListener("keyup", drawLines);
 
 window.addEventListener("resize", drawCanvas);
