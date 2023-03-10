@@ -4,77 +4,95 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" type="text/css" href="styles.css">
     <title>Audiometria</title>
 </head>
-<body onload="drawGrid()">
-    <main class="main-container">
-        <canvas id="my-canvas" width="800px" height="600px"></canvas>
 
-        <div class="symbols" id="symbols">
-            <header>
-                <span>Tipo de ensayo</span>
-                <span>Oído derecho</span>
-                <span>Oído izquierdo</span>
-            </header>
-            <div class="marker-selection">          
-                <fieldset>
-                    <div>Vía aérea (Va)</div>
-                    <div>Vía ósea (Vo)</div>
-                    <div>Va enmascarada</div>
-                    <div>Vo enmascarada</div>
-                </fieldset>
-                <fieldset>
-                    <label for="circle-marker">
-                        <img src="images/circle-img.png" alt="círculo">
-                        <input id="circle-marker" name ="marker-type" type="radio">
-                        <p></p>
-                    </label>
-                    <label for="minor-marker">
-                        <img src="images/minor-img.png" alt="<">
-                        <input id="minor-marker" name ="marker-type" type="radio">
-                        <p></p>
-                    </label>
-                    <label for="triangle-marker">
-                        <img src="images/triangle-img.png" alt="triángulo">
-                        <input id="triangle-marker" name ="marker-type" type="radio">
-                        <p></p>
-                    </label>                  
-                    <label for="bracket-open-marker">
-                        <img src="images/bracket-open-img.png" alt="[">
-                        <input id="bracket-open-marker" name ="marker-type" type="radio">
-                        <p></p>
-                    </label>
-                </fieldset>
-                <fieldset>
-                    <label for="x-marker">
-                        <img src="images/ex-img.png" alt="X">
-                        <input id="x-marker" name ="marker-type" type="radio">
-                        <p></p>
-                    </label>
-                    <label for="major-marker">
-                        <img src="images/major-img.png" alt=">">
-                        <input id="major-marker" name ="marker-type" type="radio">
-                        <p></p>
-                    </label>
-                    <label for="square-marker">
-                        <img src="images/square-img.png" alt="cuadrado">
-                        <input id="square-marker" name ="marker-type" type="radio">
-                        <p></p>
-                    </label>
-                    <label for="bracket-close-marker">
-                        <img src="images/braket-close-img.png" alt="]">
-                        <input id="bracket-close-marker" name ="marker-type" type="radio">
-                        <p></p>
-                    </label>
-                </fieldset>
+<body onload="drawCanvas(), drawGrid()">
+
+    <ul class="tabs">
+        <li><a href="#tab1">Estudio</a></li>
+        <li><a href="#tab2">Datos del paciente</a></li>
+        <li><a href="#tab3">Datos del estudio</a></li>
+    </ul>
+
+    <main class="main-container">
+        
+        <div id="tab1" class="tab-content">
+            <canvas id="my-canvas"></canvas>
+
+            <div class="symbols" id="symbols" onclick="showMenu()">
+                <span class="material-symbols-rounded">palette</span>
+                <div id="menu-content" class="menu-content">
+                <header>
+                    <span>Tipo de ensayo</span>
+                    <span>Oído derecho</span>
+                    <span>Oído izquierdo</span>
+                </header>
+                <div class="marker-selection">          
+                    <fieldset>
+                        <div>Vía aérea (Va)</div>
+                        <div>Vía ósea (Vo)</div>
+                        <div>Va enmascarada</div>
+                        <div>Vo enmascarada</div>
+                    </fieldset>
+                    <fieldset>
+                        <label for="circle-marker">
+                            <img src="images/circle-img.png" alt="círculo">
+                            <input id="circle-marker" name ="marker-type" type="radio">
+                            <p></p>
+                        </label>
+                        <label for="minor-marker">
+                            <img src="images/minor-img.png" alt="<">
+                            <input id="minor-marker" name ="marker-type" type="radio">
+                            <p></p>
+                        </label>
+                        <label for="triangle-marker">
+                            <img src="images/triangle-img.png" alt="triángulo">
+                            <input id="triangle-marker" name ="marker-type" type="radio">
+                            <p></p>
+                        </label>                  
+                        <label for="bracket-open-marker">
+                            <img src="images/bracket-open-img.png" alt="[">
+                            <input id="bracket-open-marker" name ="marker-type" type="radio">
+                            <p></p>
+                        </label>
+                    </fieldset>
+                    <fieldset>
+                        <label for="x-marker">
+                            <img src="images/ex-img.png" alt="X">
+                            <input id="x-marker" name ="marker-type" type="radio">
+                            <p></p>
+                        </label>
+                        <label for="major-marker">
+                            <img src="images/major-img.png" alt=">">
+                            <input id="major-marker" name ="marker-type" type="radio">
+                            <p></p>
+                        </label>
+                        <label for="square-marker">
+                            <img src="images/square-img.png" alt="cuadrado">
+                            <input id="square-marker" name ="marker-type" type="radio">
+                            <p></p>
+                        </label>
+                        <label for="bracket-close-marker">
+                            <img src="images/braket-close-img.png" alt="]">
+                            <input id="bracket-close-marker" name ="marker-type" type="radio">
+                            <p></p>
+                        </label>
+                    </fieldset>
+                </div>
+                <footer>
+                    doble click = dibujar marcador <br>
+                    d=dibujar líneas <br>
+                    click drecho encerrar marcador/es = borrar
+                </footer>
             </div>
-            <footer>
-                doble click = dibujar marcador <br>
-                d=dibujar líneas <br>
-                click drecho encerrar marcador/es = borrar
-            </footer>
+            </div>
         </div>
+
+        <div id="tab2" class="tab-content">fdfnfddfn</div> <!--contenedores para otras pestañas-->
+        <div id="tab3" class="tab-content">dsssddgggsg</div>
 
     </main>
 </body>

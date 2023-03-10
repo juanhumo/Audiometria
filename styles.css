@@ -6,29 +6,52 @@
 
 .main-container {
     background-color: rgb(117, 117, 205);
-    height: 100vh;
-    align-items: center;
-    justify-content: center;
+    height: 95vh;
+    padding: 0 10px;
     display: flex;
+    align-items: center;
+    /*justify-content: center;*/
 }
 
-canvas {
-    background-color: white;
+.tab-content{display: none;}                    /*oculta hasta click en pestaña*/
+
+.tabs li.active a {background-color: #fff;}
+
+.tab-content.active {                           /*click en pestaña y muestra contenido*/
+    display: flex;
+    position: relative;
+    /*justify-content: center;*/
 }
+
+
+ul li{
+    display: inline;
+    height: 5vh;
+    vertical-align: center;
+}
+
+a:link, a:visited {
+    color: inherit;
+    text-decoration: none;
+}
+
+canvas {background-color: white;}
 
 .symbols{
-    height: 600px;
-    width: 400px;
+    position:absolute;
+    /*content: none;*/
+    /*display: none;*/
     background-color:bisque;
     margin-left: 20px;
+    user-select: none;                  /*evitar selección texto por doble click*/
+    z-index: 50;
 }
-.marker-selection{
-    display:flex;
-}
+
+.marker-selection{display:flex;}
 
 fieldset{
     width: 100%;
-    margin: 4px;
+    margin: 2px;
     text-align: center;
 }
 
@@ -36,4 +59,8 @@ header{
     display:flex;
     width: 100%;
     justify-content:space-around;
+}
+
+.menu-content{
+    /*display: none;*/
 }

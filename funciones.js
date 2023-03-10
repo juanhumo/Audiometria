@@ -2,35 +2,77 @@ const mainCanvas = document.getElementById("my-canvas");
 const ctx = mainCanvas.getContext("2d");
 
 
+//************************* Código para mostrar ocultar menu **************************//
+
+var menu_visible = false;
+let menu = document.getElementById("menu-content");
+
+
+function showMenu(){
+
+    if(menu_visible===false){
+        menu.style.display = "block";
+        menu_visible = true;
+    }
+    else{
+        menu.style.display = "none";
+        menu_visible = false;
+    }
+}
+
+
+
+
+//******************** Código para mostrar contenido por pestañas *********************//
+
+const tabs = document.querySelectorAll('.tabs li');
+const tabContent = document.querySelectorAll('.tab-content');
+
+tabs.forEach((tab, index) => {
+  tab.addEventListener('click', () => {
+    tabs.forEach((tab) => tab.classList.remove('active'));
+    tab.classList.add('active');
+
+    tabContent.forEach((content) => content.classList.remove('active'));
+    tabContent[index].classList.add('active');
+  });
+});
+
+
+//************************ Dibuja y da ancho y alto al canvas *************************//
+
+const drawCanvas = function(){
+    ctx.canvas.width = document.documentElement.clientWidth;
+    ctx.canvas.height = document.documentElement.clientHeight; 
+}
+
 //************************ Genero la cuadrícula del audiograma ************************//
 function drawGrid() {
+    
     ctx.lineWidth = 1;
     ctx.strokeStyle = "#bebeb2";
 
-    for (let x = 1; x < mainCanvas.clientWidth; x += (mainCanvas.clientWidth) / 9) {
+    for (let x = 1; x < ctx.canvas.width; x += (ctx.canvas.width) / 9) {
         ctx.moveTo(x, 0);
-        ctx.lineTo(x, mainCanvas.clientHeight);
+        ctx.lineTo(x, ctx.canvas.height);
     }
-    for (let y = 1; y < mainCanvas.clientHeight; y += (mainCanvas.clientHeight) / 15) {
+    for (let y = 1; y < ctx.canvas.height; y += (ctx.canvas.height) / 15) {
         ctx.moveTo(0, y);
-        ctx.lineTo(mainCanvas.clientWidth, y);
+        ctx.lineTo(ctx.canvas.width, y);
     }
-
     ctx.stroke();
 }
-
 
 
 //************************ Grafica los marcadores al hacer clic ***********************//
 const markers = [];
 
-
 const drawMarkers = (evt) => {
-
+    
     if (isSelecting === false) {
         cursorX = evt.offsetX;
         cursorY = evt.offsetY;                
-        ctx.lineWidth = 3; 
+        ctx.lineWidth = 3;
         
         if(document.getElementById("circle-marker").checked){
                 let circle = new Circle(cursorX, cursorY, ctx);
@@ -71,12 +113,9 @@ const drawMarkers = (evt) => {
                 let bracketclose = new SquareBracketClose(cursorX, cursorY, ctx);
                 markers.push(bracketclose);
                 bracketclose.draw();      
-        }      
-        
-       //console.log(markers);                     
+        }                        
     }
 };
-
 
 
 
@@ -113,9 +152,9 @@ const updateSelection = (evt) => { // Genera el cuadro de selección y elimina c
 
 const endSelection = () => {        // Finaliza la selección, borra y restaura grilla y marcadores
     if (isSelecting === true) {
-        ctx.clearRect(0, 0, mainCanvas.clientWidth, mainCanvas.clientHeight); //borra todo
-        ctx.setLineDash([]);                //linea sólida en caso de que este seteada en dashed
-        drawGrid();                                                           // Restaura grilla
+        ctx.clearRect(0, 0, mainCanvas.clientWidth, mainCanvas.clientHeight);         //borra todo
+        ctx.setLineDash([]);                  //linea sólida en caso de que este seteada en dashed
+        drawGrid();                                                             // Restaura grilla
         ctx.lineWidth = 3;
         ctx.strokeStyle = "red";
         for (let i = 0; i < markers.length; i++) {markers[i].draw();}        // Restaura marcadores
@@ -171,10 +210,11 @@ const drawLines = (evt) => {
 };
 
 
-//*************************** Dibujo de distintos marcadores **************************//
+//********************* Declaración de clases para cada marcadores ********************//
+
 
 class Circle {
-    constructor(cursorX, cursorY, ctx) {
+    constructor(cursorX, cursorY, ctx,) {
         this.cursorX = cursorX;
         this.cursorY = cursorY;
         this.ctx = ctx;
@@ -352,4 +392,9 @@ mainCanvas.addEventListener("dblclick", drawMarkers);
 mainCanvas.addEventListener("mousedown", startSelection);
 mainCanvas.addEventListener("mousemove", updateSelection);
 mainCanvas.addEventListener("mouseup", endSelection);
+
 document.addEventListener("keyup", drawLines);
+
+window.addEventListener("resize", drawCanvas);
+window.addEventListener("resize", drawGrid);
+
